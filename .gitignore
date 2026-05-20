@@ -1,0 +1,96 @@
+# OS / System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Sensitive Credentials / Keys (Must not be pushed to GitHub)
+rzp-key_live.csv
+rzp-key_test.csv
+googlemapskey.txt
+keystore.txt
+email_api
+
+# Developer Scratchpads / Local notes
+cmd.txt
+notes.txt
+domains.txt
+
+# Editor / IDE configuration folders
+.idea/
+.vscode/
+.claude/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Cloud (Laravel)
+/cloud/**/*.log
+/cloud/.env
+/cloud/.env.backup
+/cloud/.env.production
+/cloud/.phpactor.json
+/cloud/.phpunit.result.cache
+/cloud/.codex
+/cloud/.cursor/
+/cloud/.idea
+/cloud/.nova
+/cloud/.phpunit.cache
+/cloud/.vscode
+/cloud/.zed
+/cloud/auth.json
+/cloud/node_modules
+/cloud/public/build
+/cloud/public/hot
+/cloud/public/storage
+/cloud/storage/*.key
+/cloud/storage/pail
+/cloud/vendor
+/cloud/_ide_helper.php
+/cloud/Homestead.json
+/cloud/Homestead.yaml
+
+# App (Flutter)
+# Miscellaneous
+/app/**/*.class
+/app/**/*.pyc
+/app/**/*.swp
+/app/.atom/
+/app/.build/
+/app/.buildlog/
+/app/.history
+/app/.svn/
+/app/.swiftpm/
+/app/migrate_working_dir/
+
+# IntelliJ related
+/app/**/*.iml
+/app/**/*.ipr
+/app/**/*.iws
+/app/.idea/
+
+# Flutter/Dart/Pub related
+/app/**/doc/api/
+/app/**/ios/Flutter/.last_build_id
+/app/.dart_tool/
+/app/.flutter-plugins-dependencies
+/app/.pub-cache/
+/app/.pub/
+/app/build/
+/app/coverage/
+
+# Symbolication related
+/app/app.*.symbols
+
+# Obfuscation related
+/app/app.*.map.json
+
+# Android Studio will place build artifacts here
+/app/android/app/debug
+/app/android/app/profile
+/app/android/app/release
