@@ -742,7 +742,7 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
                             children: [
                               TileLayer(
                                 urlTemplate:
-                                    'https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&key=${settingsProvider.settings[\'google_maps_api_key\'] ?? "YOUR_GOOGLE_MAPS_API_KEY"}',
+                                    "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&key=${settingsProvider.settings['google_maps_api_key'] ?? 'YOUR_GOOGLE_MAPS_API_KEY'}",
                                 userAgentPackageName: 'com.eatsonly.app',
                               ),
                               if (_latitude != null && _longitude != null)
