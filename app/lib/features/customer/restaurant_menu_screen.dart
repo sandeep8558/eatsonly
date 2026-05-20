@@ -508,6 +508,73 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
               isAllowedToCheckout = isModeAllowed;
             }
 
+            Widget buildPaymentButton({
+              required String method,
+              required String label,
+              required IconData icon,
+            }) {
+              final isSelected = paymentMethod == method;
+              final Color activeGold = const Color(0xFFD4AF37);
+              final Color onSurface = Theme.of(context).colorScheme.onSurface;
+
+              final Color bgColor = !isAllowedToCheckout
+                  ? onSurface.withOpacity(0.01)
+                  : (isSelected ? activeGold.withOpacity(0.12) : onSurface.withOpacity(0.03));
+
+              final Color borderColor = !isAllowedToCheckout
+                  ? onSurface.withOpacity(0.05)
+                  : (isSelected ? activeGold : onSurface.withOpacity(0.15));
+
+              final Color iconColor = !isAllowedToCheckout
+                  ? onSurface.withOpacity(0.38)
+                  : (isSelected ? activeGold : onSurface.withOpacity(0.6));
+
+              final Color textColor = !isAllowedToCheckout
+                  ? onSurface.withOpacity(0.38)
+                  : (isSelected ? activeGold : onSurface);
+
+              return GestureDetector(
+                onTap: !isAllowedToCheckout
+                    ? null
+                    : () {
+                        setSheetState(() {
+                          paymentMethod = method;
+                        });
+                      },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                  decoration: BoxDecoration(
+                    color: bgColor,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: borderColor, width: 1.5),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        icon,
+                        color: iconColor,
+                        size: 18,
+                      ),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          label,
+                          style: TextStyle(
+                            color: textColor,
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+
             return Container(
               padding: EdgeInsets.fromLTRB(24, 24, 24, MediaQuery.of(context).viewInsets.bottom + MediaQuery.of(context).padding.bottom + 24),
               child: SingleChildScrollView(
@@ -757,105 +824,49 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
                   // Payment Mode Choice
                   const Text('PAYMENT MODE', style: TextStyle(color: Color(0xFFD4AF37), fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
                   const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      if (settings.codEnabled)
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: !isAllowedToCheckout ? null : () {
-                              setSheetState(() {
-                                paymentMethod = 'COD';
-                              });
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              decoration: BoxDecoration(
-                                color: !isAllowedToCheckout
-                                    ? Theme.of(context).colorScheme.onSurface.withOpacity(0.01)
-                                    : (paymentMethod == 'COD' ? const Color(0xFFD4AF37).withOpacity(0.12) : Theme.of(context).colorScheme.onSurface.withOpacity(0.05)),
-                                borderRadius: BorderRadius.circular(16),
-                                border: Border.all(
-                                  color: !isAllowedToCheckout
-                                      ? Theme.of(context).colorScheme.onSurface.withOpacity(0.1)
-                                      : (paymentMethod == 'COD' ? const Color(0xFFD4AF37) : Theme.of(context).colorScheme.onSurface.withOpacity(0.2)),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.money_rounded,
-                                    color: !isAllowedToCheckout
-                                        ? Colors.white38
-                                        : (paymentMethod == 'COD' ? const Color(0xFFD4AF37) : Colors.white60),
-                                    size: 18,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    customerProvider.orderType == 'dine_in' ? 'Pay at Counter' : 'Cash On Delivery',
-                                    style: TextStyle(
-                                      color: !isAllowedToCheckout
-                                          ? Colors.white38
-                                          : (paymentMethod == 'COD' ? const Color(0xFFD4AF37) : Colors.white),
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      final useVerticalLayout = constraints.maxWidth < 360;
+
+                      final List<Widget> buttons = [];
+                      if (settings.codEnabled) {
+                        buttons.add(
+                          buildPaymentButton(
+                            method: 'COD',
+                            label: customerProvider.orderType == 'dine_in' ? 'Pay at Counter' : 'Cash On Delivery',
+                            icon: Icons.money_rounded,
                           ),
-                        ),
-                      if (settings.codEnabled && settings.onlinePaymentEnabled)
-                        const SizedBox(width: 12),
-                      if (settings.onlinePaymentEnabled)
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: !isAllowedToCheckout ? null : () {
-                              setSheetState(() {
-                                paymentMethod = 'ONLINE';
-                              });
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              decoration: BoxDecoration(
-                                color: !isAllowedToCheckout
-                                    ? Colors.white.withOpacity(0.01)
-                                    : (paymentMethod == 'ONLINE' ? const Color(0xFFD4AF37).withOpacity(0.12) : Colors.white.withOpacity(0.03)),
-                                borderRadius: BorderRadius.circular(16),
-                                border: Border.all(
-                                  color: !isAllowedToCheckout
-                                      ? Colors.white.withOpacity(0.05)
-                                      : (paymentMethod == 'ONLINE' ? const Color(0xFFD4AF37) : Colors.white30),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.qr_code_rounded,
-                                    color: !isAllowedToCheckout
-                                        ? Colors.white38
-                                        : (paymentMethod == 'ONLINE' ? const Color(0xFFD4AF37) : Colors.white60),
-                                    size: 18,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    'Pay via UPI / Card',
-                                    style: TextStyle(
-                                      color: !isAllowedToCheckout
-                                          ? Colors.white38
-                                          : (paymentMethod == 'ONLINE' ? const Color(0xFFD4AF37) : Colors.white),
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                        );
+                      }
+                      if (settings.codEnabled && settings.onlinePaymentEnabled) {
+                        buttons.add(SizedBox(
+                          height: useVerticalLayout ? 10 : 0,
+                          width: useVerticalLayout ? 0 : 12,
+                        ));
+                      }
+                      if (settings.onlinePaymentEnabled) {
+                        buttons.add(
+                          buildPaymentButton(
+                            method: 'ONLINE',
+                            label: 'Pay via UPI / Card',
+                            icon: Icons.qr_code_rounded,
                           ),
-                        ),
-                    ],
+                        );
+                      }
+
+                      if (useVerticalLayout) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: buttons,
+                        );
+                      } else {
+                        return Row(
+                          children: buttons
+                              .map((b) => b is SizedBox ? b : Expanded(child: b))
+                              .toList(),
+                        );
+                      }
+                    },
                   ),
 
                   const SizedBox(height: 24),
@@ -1511,53 +1522,58 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
                                     '₹${item.price.toStringAsFixed(2)}',
                                     style: const TextStyle(color: Color(0xFFD4AF37), fontWeight: FontWeight.bold, fontSize: 14),
                                   ),
+                                  const SizedBox(height: 10),
+                                  // Action button add/subtract
+                                  if (count == 0)
+                                    SizedBox(
+                                      height: 32,
+                                      width: 76,
+                                      child: TextButton(
+                                        onPressed: () => _addToCart(item),
+                                        style: TextButton.styleFrom(
+                                          backgroundColor: const Color(0xFFD4AF37).withOpacity(0.1),
+                                          side: const BorderSide(color: Color(0xFFD4AF37), width: 1),
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                          padding: EdgeInsets.zero,
+                                        ),
+                                        child: const Text('ADD', style: TextStyle(color: Color(0xFFD4AF37), fontSize: 11, fontWeight: FontWeight.w900)),
+                                      ),
+                                    )
+                                  else
+                                    Row(
+                                      children: [
+                                        Container(
+                                          height: 32,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFFD4AF37),
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () => _removeFromCart(item),
+                                                child: const Padding(
+                                                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
+                                                  child: Icon(Icons.remove_rounded, color: Colors.black, size: 14),
+                                                ),
+                                              ),
+                                              Text('$count', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 13)),
+                                              GestureDetector(
+                                                onTap: () => _addToCart(item),
+                                                child: const Padding(
+                                                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
+                                                  child: Icon(Icons.add_rounded, color: Colors.black, size: 14),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                 ],
                               ),
                             ),
-                            const SizedBox(width: 12),
-
-                            // Action button add/subtract
-                            if (count == 0)
-                              SizedBox(
-                                height: 36,
-                                width: 76,
-                                child: TextButton(
-                                  onPressed: () => _addToCart(item),
-                                  style: TextButton.styleFrom(
-                                    backgroundColor: const Color(0xFFD4AF37).withOpacity(0.1),
-                                    side: const BorderSide(color: Color(0xFFD4AF37), width: 1),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                                  ),
-                                  child: const Text('ADD', style: TextStyle(color: Color(0xFFD4AF37), fontSize: 11, fontWeight: FontWeight.w900)),
-                                ),
-                              )
-                            else
-                              Container(
-                                height: 36,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFD4AF37),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () => _removeFromCart(item),
-                                      child: const Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                                        child: Icon(Icons.remove_rounded, color: Colors.black, size: 14),
-                                      ),
-                                    ),
-                                    Text('$count', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 13)),
-                                    GestureDetector(
-                                      onTap: () => _addToCart(item),
-                                      child: const Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                                        child: Icon(Icons.add_rounded, color: Colors.black, size: 14),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                           ],
                         ),
                       );

@@ -531,14 +531,14 @@ class _CustomerOrdersScreenState extends State<CustomerOrdersScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildStepIndicator('Placed', true),
-              _buildStepIndicator('Cooking', statusProgress >= 0.5),
+              _buildStepIndicator(context, 'Placed', true),
+              _buildStepIndicator(context, 'Cooking', statusProgress >= 0.5),
               if (normalizedType == 'takeaway') ...[
-                _buildStepIndicator('Ready', statusProgress >= 0.75),
-                _buildStepIndicator('Collected', statusProgress >= 1.0),
+                _buildStepIndicator(context, 'Ready', statusProgress >= 0.75),
+                _buildStepIndicator(context, 'Collected', statusProgress >= 1.0),
               ] else ...[
-                _buildStepIndicator('On the Way', statusProgress >= 0.75),
-                _buildStepIndicator('Arrived', statusProgress >= 1.0),
+                _buildStepIndicator(context, 'On the Way', statusProgress >= 0.75),
+                _buildStepIndicator(context, 'Arrived', statusProgress >= 1.0),
               ],
             ],
           ),
@@ -547,7 +547,7 @@ class _CustomerOrdersScreenState extends State<CustomerOrdersScreen> {
             borderRadius: BorderRadius.circular(4),
             child: LinearProgressIndicator(
               value: statusProgress,
-              backgroundColor: Colors.white10,
+              backgroundColor: Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
               color: const Color(0xFFD4AF37),
               minHeight: 6,
             ),
@@ -847,19 +847,19 @@ class _CustomerOrdersScreenState extends State<CustomerOrdersScreen> {
     }
   }
 
-  Widget _buildStepIndicator(String label, bool isCompleted) {
+  Widget _buildStepIndicator(BuildContext context, String label, bool isCompleted) {
     return Column(
       children: [
         Icon(
           isCompleted ? Icons.check_circle_rounded : Icons.radio_button_off_rounded,
-          color: isCompleted ? const Color(0xFFD4AF37) : Colors.white24,
+          color: isCompleted ? const Color(0xFFD4AF37) : Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
           size: 18,
         ),
         const SizedBox(height: 6),
         Text(
           label,
           style: TextStyle(
-            color: isCompleted ? Colors.white : Colors.white38,
+            color: isCompleted ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
             fontSize: 10,
             fontWeight: isCompleted ? FontWeight.bold : FontWeight.normal,
           ),

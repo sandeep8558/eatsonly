@@ -229,7 +229,7 @@ class _CustomerAddressesScreenState extends State<CustomerAddressesScreen> {
                                     ),
                                     child: Icon(
                                       isActive ? Icons.check_rounded : Icons.location_on_outlined,
-                                      color: isActive ? Colors.black : Colors.white38,
+                                      color: isActive ? Colors.black : Theme.of(context).colorScheme.onSurface.withOpacity(0.38),
                                       size: 16,
                                     ),
                                   ),
@@ -288,7 +288,7 @@ class _CustomerAddressesScreenState extends State<CustomerAddressesScreen> {
                                 Text(
                                   'GPS: [${(item as AddressModel).latitude.toStringAsFixed(5)}, ${item.longitude.toStringAsFixed(5)}]',
                                   style: TextStyle(
-                                    color: Colors.white.withOpacity(0.22),
+                                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.38),
                                     fontSize: 11,
                                     fontFamily: 'monospace',
                                   ),
@@ -300,14 +300,14 @@ class _CustomerAddressesScreenState extends State<CustomerAddressesScreen> {
                         // Edit / Delete action row
                         Container(
                           decoration: BoxDecoration(
-                            border: Border(top: BorderSide(color: Colors.white.withOpacity(0.06))),
+                            border: Border(top: BorderSide(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.08))),
                           ),
                           child: Row(
                             children: [
                               Expanded(
                                 child: TextButton.icon(
-                                  icon: const Icon(Icons.edit_rounded, size: 14, color: Colors.white54),
-                                  label: const Text('Edit', style: TextStyle(color: Colors.white54, fontSize: 12, fontWeight: FontWeight.w600)),
+                                  icon: Icon(Icons.edit_rounded, size: 14, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.54)),
+                                  label: Text('Edit', style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.54), fontSize: 12, fontWeight: FontWeight.w600)),
                                   onPressed: () {
                                     if (useServer) {
                                       _openAddressForm(editingAddress: item as AddressModel);
@@ -321,7 +321,7 @@ class _CustomerAddressesScreenState extends State<CustomerAddressesScreen> {
                                   ),
                                 ),
                               ),
-                              Container(width: 1, height: 28, color: Colors.white.withOpacity(0.06)),
+                              Container(width: 1, height: 28, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.08)),
                               Expanded(
                                 child: TextButton.icon(
                                   icon: const Icon(Icons.delete_rounded, size: 14, color: Colors.redAccent),
@@ -519,9 +519,9 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
       builder: (context, scrollController) {
         return Container(
           decoration: BoxDecoration(
-            color: const Color(0xFF16181D),
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-            border: Border.all(color: Colors.white.withOpacity(0.07)),
+            border: Border.all(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.07)),
           ),
           child: Column(
             children: [
@@ -532,7 +532,7 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.15),
+                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -554,7 +554,7 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
                     ),
                     const Spacer(),
                     IconButton(
-                      icon: const Icon(Icons.close, color: Colors.white38, size: 20),
+                      icon: Icon(Icons.close, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.38), size: 20),
                       onPressed: () => Navigator.pop(context),
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
@@ -563,7 +563,7 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
                 ),
               ),
 
-              Divider(color: Colors.white.withOpacity(0.06)),
+              Divider(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.06)),
 
               // Scrollable form
               Expanded(
@@ -595,18 +595,18 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
                     // GPS Coordinates Section
                     Row(
                       children: [
-                        const Expanded(
+                        Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 'GPS COORDINATES',
                                 style: TextStyle(color: Color(0xFFD4AF37), fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5),
                               ),
-                              SizedBox(height: 2),
+                              const SizedBox(height: 2),
                               Text(
                                 'Required for delivery routing',
-                                style: TextStyle(color: Colors.white38, fontSize: 11),
+                                style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.38), fontSize: 11),
                               ),
                             ],
                           ),
@@ -662,20 +662,20 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
                             icon: Icon(
                               _showMap ? Icons.map_rounded : Icons.map_outlined,
                               size: 16,
-                              color: _showMap ? Colors.white : Colors.white54,
+                              color: _showMap ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onSurface.withOpacity(0.54),
                             ),
                             label: Text(
                               _showMap ? 'Hide Map' : 'Set on Map',
                               style: TextStyle(
-                                color: _showMap ? Colors.white : Colors.white54,
+                                color: _showMap ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onSurface.withOpacity(0.54),
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                             onPressed: _toggleMap,
                             style: OutlinedButton.styleFrom(
-                              side: BorderSide(color: Colors.white.withOpacity(_showMap ? 0.3 : 0.15)),
-                              backgroundColor: _showMap ? Colors.white.withOpacity(0.05) : null,
+                              side: BorderSide(color: Theme.of(context).colorScheme.onSurface.withOpacity(_showMap ? 0.3 : 0.15)),
+                              backgroundColor: _showMap ? Theme.of(context).colorScheme.onSurface.withOpacity(0.05) : null,
                               padding: const EdgeInsets.symmetric(vertical: 14),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                             ),
@@ -690,9 +690,9 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.03),
+                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.03),
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.white.withOpacity(0.07)),
+                          border: Border.all(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.07)),
                         ),
                         child: Row(
                           children: [
@@ -715,9 +715,9 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
                     // Map picker
                     if (_showMap) ...[
                       const SizedBox(height: 14),
-                      const Text(
+                      Text(
                         'TAP ON MAP TO SET PIN',
-                        style: TextStyle(color: Colors.white38, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1),
+                        style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.38), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1),
                       ),
                       const SizedBox(height: 8),
                       ClipRRect(
@@ -783,20 +783,22 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
                               )
                             : Icon(
                                 isEditing ? Icons.edit_note_rounded : Icons.check_circle_outline_rounded,
-                                color: _canSave ? Colors.black : Colors.black38,
+                                color: _canSave ? Colors.black : Theme.of(context).colorScheme.onSurface.withOpacity(0.38),
                                 size: 20,
                               ),
                         label: Text(
                           _isSaving ? 'Saving…' : (isEditing ? 'Update Address' : 'Save Address'),
                           style: TextStyle(
-                            color: _canSave ? Colors.black : Colors.black38,
+                            color: _canSave ? Colors.black : Theme.of(context).colorScheme.onSurface.withOpacity(0.38),
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         onPressed: _canSave && !_isSaving ? _save : null,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: _canSave ? const Color(0xFFD4AF37) : const Color(0xFFD4AF37).withOpacity(0.3),
+                          backgroundColor: const Color(0xFFD4AF37),
+                          disabledBackgroundColor: const Color(0xFFD4AF37).withOpacity(0.15),
+                          disabledForegroundColor: Theme.of(context).colorScheme.onSurface.withOpacity(0.38),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                           elevation: 0,
                         ),
@@ -813,7 +815,7 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
                                   ? 'Enter a label (at least 2 characters)'
                                   : 'Enter a full street address (at least 6 characters)',
                           textAlign: TextAlign.center,
-                          style: const TextStyle(color: Colors.white38, fontSize: 11),
+                          style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.38), fontSize: 11),
                         ),
                       ),
                     ],
@@ -839,11 +841,11 @@ class _FormLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, size: 13, color: Colors.white38),
+        Icon(icon, size: 13, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.38)),
         const SizedBox(width: 6),
         Text(
           label,
-          style: const TextStyle(color: Colors.white38, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.2),
+          style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.38), fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.2),
         ),
       ],
     );
@@ -868,17 +870,17 @@ class _StyledTextField extends StatelessWidget {
     return TextField(
       controller: controller,
       maxLines: maxLines,
-      style: const TextStyle(color: Colors.white, fontSize: 14),
+      style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 14),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: TextStyle(color: Colors.white.withOpacity(0.25), fontSize: 13),
-        prefixIcon: Icon(prefixIcon, color: Colors.white38, size: 18),
+        hintStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.25), fontSize: 13),
+        prefixIcon: Icon(prefixIcon, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.38), size: 18),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         filled: true,
-        fillColor: Colors.white.withOpacity(0.03),
+        fillColor: Theme.of(context).colorScheme.onSurface.withOpacity(0.03),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.white.withOpacity(0.1)),
+          borderSide: BorderSide(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.1)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
