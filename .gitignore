@@ -94,3 +94,8 @@ domains.txt
 /app/android/app/debug
 /app/android/app/profile
 /app/android/app/release
+
+# Build Artifacts
+*.apk
+*.aab
+*.ipa
